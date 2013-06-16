@@ -1,0 +1,9 @@
+h1= title
+p Welcome to #{title}
+-if (!everyauth.loggedIn)
+    #fb-login.fb_button(style='background-position: left -188px')
+        a.fb_button_medium(href='/auth/facebook')
+          span#fb_login_text.fb_button_text Log-in with Facebook please.
+-else
+    h3= "hi" + JSON.stringify(everyauth.facebook.user.first_name)
+    a(href='sentiment') corpus for sentiment analysis

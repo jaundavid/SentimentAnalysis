@@ -1,0 +1,2 @@
+  #fb-login(style='float: left; margin-left: 5px')
+    a(href='/auth/facebook', style='border: 0px')

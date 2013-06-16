@@ -1,0 +1,2 @@
+findOrCreateUser(fbdata,accesToken,accessSecretToken,session)
+a(href:"/auth/facebook") log-in with facebook
