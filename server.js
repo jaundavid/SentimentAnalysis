@@ -1,6 +1,7 @@
 var express   = require('express'),
     everyauth = require('everyauth'),
     util      = require('util'),
+    fs        = require('fs'),
     graph     = require('fbgraph');
 
 everyauth.everymodule
@@ -54,9 +55,14 @@ app.get('/sentiment',function(req,res){
         like_count and message are fields of comments in posts.
         */
         var posts;
-        graph.get('131084400257458?fields=feed.limit(100).fields(message, likes, type, comments.fields(like_count,message))',
+        graph.get('131084400257458?fields=feed.limit(500).fields(message, likes, type, comments.fields(like_count,message))',
         function(err, response){
-            res.render('private',{corpus: JSON.stringify(response)})
+            fs.writeFile("./test.json",JSON.stringify(response),
+                function (error){
+                    if(error){ console.log(error);}
+                    else { console.log('This file was saved');}
+                });
+            res.render('private',{corpus: JSON.stringify({"hola":"hola","id":123})})
         }); 
     }
     else{
