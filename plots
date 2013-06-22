@@ -1,0 +1,24 @@
+#!/bin/bash
+cat corpus | tr -s '[[:punct:][:space:]]' '\n' > tokens
+wc -c tokens
+sort tokens | uniq -ci > freqs
+wc -l freqs
+cat freqs | tr -dc [[:digit:][:space:]] | tr -d ' ' | sort -nr > fre
+echo 'set logscale xy; set term png; set output "frequencies.png"; plot "fre"' | gnuplot
+
+cat postivecorpus | tree-tagger-spanish-utf8 > positivedistribution
+sort positivedistribution | uniq -ci > freqspositive
+cat negativecorpus | tree-tagger-spanish-utf8 > negativedistribution
+sort negativedistribution | uniq -ci > freqsnegative
+cat neutralcorpus | tree-tagger-spanish-utf8 > neutraldistribution
+sort neutraldistribution | uniq -ci > freqstags3
+paste freqspositive freqsnegative freqsneutral > freqstags
+wc -l freqstags
+echo 'set term png; set output "freqstagshistogram.png"; 
+      set grid; set boxwidth 0.75 absolute;
+      set style fill solid 1.00 border -1;
+      set style histogram rowstacked;
+      set style data histograms;
+      set xtics nomirror rotate by -90 font "10,5";
+      plot "freqstags" using 1 t "positive", "" using 3 t "negative", "" using 5:xtic(2) t "neutral"' | gnuplot
+
